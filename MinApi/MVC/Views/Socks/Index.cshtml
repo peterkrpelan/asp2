@@ -8,5 +8,5 @@
 <h1>Ponožky</h1>
 @foreach(var sock in Model)
 {
-    <p>@sock.Id:  @sock.Brand - @sock.Size - @sock.Price - @sock.OnStock</p>
+    <p><a href="/Socks/GetById/@sock.Id">Detail</a>  @sock.Brand - @sock.Size - @sock.Price - @sock.OnStock</p>
 }
