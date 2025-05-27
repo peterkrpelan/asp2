@@ -8,16 +8,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MVC.Data;
 using MVC.Models;
+using MVC.Services;
 
 namespace MVC.Controllers
 {
     public class NewSocksController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly SimpleFileLogger _logger;
 
-        public NewSocksController(ApplicationDbContext context)
+        public NewSocksController(ApplicationDbContext context, SimpleFileLogger logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         // GET: NewSocks
@@ -32,6 +35,7 @@ namespace MVC.Controllers
                 login = User.Identity.Name;
             }
             ViewData["login"] = login;
+            _logger.Log($"Prihlásený užívateľ {login}");
             return View(await _context.Socks.ToListAsync());
         }
 
