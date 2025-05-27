@@ -17,18 +17,22 @@
     public class SockDataSet
     {
         static string[] brands = ["icebreaker", "adidas", "reebook", "puma"];
+        private static List<Socks>? listSocks = null;
         public static IEnumerable<Socks> GetSocks()
         {
-            var _socks = Enumerable.Range(1, 5).Select(index =>
-            new Socks
+            if (listSocks == null)
             {
-                Id = index,
-                Brand = brands[Random.Shared.Next(brands.Length)],
-                Size = (SockSize)Random.Shared.Next(4),
-                Price = (decimal)Random.Shared.Next(50, 500),
-                OnStock = Random.Shared.Next(10, 100)
-            }).ToArray();
-            return _socks;
+                listSocks =  Enumerable.Range(1, 5).Select(index =>
+                                new Socks
+                                {
+                                    Id = index,
+                                    Brand = brands[Random.Shared.Next(brands.Length)],
+                                    Size = (SockSize)Random.Shared.Next(4),
+                                    Price = (decimal)Random.Shared.Next(50, 500),
+                                    OnStock = Random.Shared.Next(10, 100)
+                                }).ToList();
+            }
+            return listSocks;
         }
     }
 }
