@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -20,8 +21,17 @@ namespace MVC.Controllers
         }
 
         // GET: NewSocks
+
+
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
+            string? login = "neprihlásený";
+            if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                login = User.Identity.Name;
+            }
+            ViewData["login"] = login;
             return View(await _context.Socks.ToListAsync());
         }
 
@@ -44,6 +54,7 @@ namespace MVC.Controllers
         }
 
         // GET: NewSocks/Create
+        [Authorize]
         public IActionResult Create()
         {
             return View();
