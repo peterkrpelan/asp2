@@ -1,0 +1,85 @@
+﻿@page "/Person"
+@using BlazorApp.Models
+@inject PersonsDataSet persons
+
+<h3>Zoznam osob</h3>
+<div class="row">
+    <label class="control-label">E-mail</label>
+    <InputText @bind-Value=email />
+    <button class="btn btn btn-primary" @onclick="Search">Hladaj</button>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Meno</th>
+            <th>Priezvisko</th>
+            <th>E-mail</th>
+            <th>Dát. nar</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var person in personToPage)
+        {
+            <tr>
+                <td>@person.FirstName</td>
+                <td>@person.LastName</td>
+                <td>@person.Email</td>
+                <td>@person.DateOfBirth</td>
+            </tr>
+        }
+    </tbody>    
+</table>
+<div class="row">
+    <div class="col-2">
+        <button class="btn btn btn-primary" @onclick="Next">Predoošlý</button>
+        <button class="btn btn btn-primary" @onclick="Prev">Ďalší</button>
+    </div>
+</div>
+
+
+@code {
+    List<Person> personToPage = new List<Person>();
+    private int take = 10;
+    private int start = 0;
+    private string email="";
+
+    protected override Task OnInitializedAsync()
+    {
+        if(persons != null)
+        {
+            IEnumerable<Person>? collection = persons.GetData().Take(20);
+
+            personToPage.AddRange(collection);
+        }
+
+        return base.OnInitializedAsync();
+    }
+    void Next()
+    {
+        start += take;
+        start = Math.Min(start, persons.GetData().Count() - take);
+        personToPage = persons.GetData().Skip(start).Take(take).ToList();
+    }
+    void Prev()
+    {
+        start -= take;
+        start = Math.Min(start, persons.GetData().Count() - take);
+        personToPage = persons.GetData().Skip(start).Take(take).ToList();
+
+    }
+
+    void Search()
+    {
+        if (!String.IsNullOrWhiteSpace(email))
+        {
+
+        }
+    }
+
+    void Add10()
+    {
+        var next10 = persons.GetData()
+    }
+
+}

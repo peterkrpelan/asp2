@@ -1,0 +1,19 @@
+﻿@page "/counter"
+@using BlazorApp.Services
+
+@inject SimpleCounter simpleCounter
+<PageTitle>Counter</PageTitle>
+
+<h1>Counter</h1>
+
+<p role="status">Current count: @simpleCounter.Counter</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+@code {
+
+    private void IncrementCount()
+    {
+        simpleCounter.Counter++;
+    }
+}
